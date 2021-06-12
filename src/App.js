@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component, Fragment } from 'react'
+import Todo from "./Todo"
+import './style.css'
+export default class App extends Component {
+    state = {
+        task: [],
+        text: ""
+    }
+    changeText = (h) =>{
+        this.setState({text:h.target.value})
+    }
+    clickText = (h) =>{
+        if (this.state.text!=="") {
+            const doTask = [...this.state.task, this.state.text];
+            this.setState({task:doTask, text:""})
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+        }
+    }
+    render() {
+        return (
+            <Fragment>
+                <h1>My TODOs List</h1>
+                <div className="container">
+                <input type="text" value={this.state.text} onChange={this.changeText}/>
+                <button className="btn" onClick={this.clickText}>Add Task</button>
+                </div>
+                {
+                    this.state.task.map((value, i)=>{
+                        return <Todo key={i} value={value}/>
+                    })
+                }
+                
+            </Fragment>
+        )
+    }
 }
-
-export default App;
